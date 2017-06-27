@@ -7,6 +7,14 @@
 *.log
 *.gz
 
+## Intermediate documents:
+*.dvi
+*-converted-to.*
+# these rules might exclude image files for figures etc.
+# *.ps
+# *.eps
+# *.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
