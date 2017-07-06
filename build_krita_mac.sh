@@ -1,23 +1,26 @@
 # development build of Krita for macOS
-set -e # exit on error
 mkdir $HOME/dev # if that folder doesn't exist yet
 BUILDROOT="$HOME/dev"
 export BUILDROOT
 
 cd $BUILDROOT
-git clone git://anongit.kde.org/krita.git # if krita is not downloaded yet
-#cd krita; git pull; cd .. # if it's already there
+#git clone git://anongit.kde.org/krita.git # if krita is not downloaded yet
+cd krita; git pull; cd .. # if it's already there
 
 mkdir $BUILDROOT/b
 mkdir $BUILDROOT/d
 mkdir $BUILDROOT/i
+mkdir $BUILDROOT/build
+
+set -e # exit on error
 
 cd $BUILDROOT/b
 export PATH=$BUILDROOT/i/bin:$PATH
+
 cmake ../krita/3rdparty/ -DCMAKE_INSTALL_PREFIX=$BUILDROOT/i -DEXTERNALS_DOWNLOAD_DIR=$BUILDROOT/d -DINSTALL_ROOT=$BUILDROOT/i
 
 #build packages
-cmake --build . --config RelWithDebInfo --target ext_qt
+#cmake --build . --config RelWithDebInfo --target ext_qt
 cmake --build . --config RelWithDebInfo --target ext_zlib
 cmake --build . --config RelWithDebInfo --target ext_boost
 
@@ -41,7 +44,6 @@ cmake --build . --config RelWithDebInfo --target ext_libraw
 cmake --build . --config RelWithDebInfo --target ext_gettext
 cmake --build . --config RelWithDebInfo --target ext_kwindowsystem
 
-mkdir $BUILDROOT/build
 cd $BUILDROOT/build
 cmake ../krita -DCMAKE_INSTALL_PREFIX=$BUILDROOT/i -DDEFINE_NO_DEPRECATED=1 -DBUILD_TESTING=TRUE -DHIDE_SAFE_ASSERTS=FALSE -DKDE4_BUILD_TESTS=OFF -DBUNDLE_INSTALL_DIR=$BUILDROOT/i/bin -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
