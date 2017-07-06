@@ -1,4 +1,5 @@
 # development build of Krita for macOS
+set -e # exit on error
 mkdir $HOME/dev # if that folder doesn't exist yet
 BUILDROOT="$HOME/dev"
 export BUILDROOT
@@ -37,6 +38,7 @@ cmake --build . --config RelWithDebInfo --target ext_tiff
 cmake --build . --config RelWithDebInfo --target ext_gsl
 cmake --build . --config RelWithDebInfo --target ext_vc
 cmake --build . --config RelWithDebInfo --target ext_libraw
+cmake --build . --config RelWithDebInfo --target ext_gettext
 cmake --build . --config RelWithDebInfo --target ext_kwindowsystem
 
 mkdir $BUILDROOT/build
