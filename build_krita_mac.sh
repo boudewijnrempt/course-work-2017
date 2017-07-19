@@ -48,5 +48,15 @@ cd $BUILDROOT/build
 cmake ../krita -DCMAKE_INSTALL_PREFIX=$BUILDROOT/i -DDEFINE_NO_DEPRECATED=1 -DBUILD_TESTING=TRUE -DHIDE_SAFE_ASSERTS=FALSE -DKDE4_BUILD_TESTS=OFF -DBUNDLE_INSTALL_DIR=$BUILDROOT/i/bin -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 
-make -j5
+#make -j5
 make install -j5
+
+install_name_tool -change libboost_system.dylib @rpath/libboost_system.dylib $HOME/dev/i/bin/krita.app/Contents/MacOS/krita
+
+
+FILES="$(find $HOME/dev/i/lib/ -name '*so' -o -name '*dylib')"
+for FILE in $FILES ; do
+    echo $FILE
+    install_name_tool -change libboost_system.dylib @rpath/libboost_system.dylib $FILE
+done
+

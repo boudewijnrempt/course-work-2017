@@ -3,53 +3,57 @@
 %
 % % В начале раздела  можно напомнить его цель
 %
-\section{Previous Work}
-\subsection{Suggestive Sketching}
-Drawing is a common and yet challenging human activity. Significant research efforts have been devoted to design suggestive or guided drawing systems that use various forms of data to help users. For example, portrait sketching can be assisted by crowd- sourced sketches \cite{bib1} or analyzed face data \cite{bib1}. To help users draw a larger collection of objects, Lee et al. \cite{bib1} interactively guides users’ progress by displaying shadows extracted from web images, while Iarussi et al. \cite{bib1} provide structural guidances based on artistic and geometric principles. Besides static images or drawings, it is also possible to guide novices through recorded workflows of experienced painters \cite{bib1}.
-Our method follows this line of work, but uses past drawing workflows from the same user to guide future drawings.
+\section{Общие требования к алгоритму}
+%\subsection{Suggestive Sketching}
+Важный нюанс работы системы — это сохранение выразительности и достаточного контроля над процессом рисования для пользователя\cite{bib1}. Современные системы, которые работают на основании введенных данных, преуспели в этом(например \cite{bib2},\cite{bib3}), но в большинстве случаев они работают последовательно: сначала они получают на вход небольшие экземпляры, а затем клонируют их в желаемых областях вывода с помощью различного управления жестами. Такой последовательный режим может нарушить непрерывный и спонтанный характер живописи, так как пользователи не могут знать априори желаемые повторения и хотели бы поэкспериментировать в процессе рисования. Кроме того, такой больше подходит для больших и однородных по узору областей и для внесения разнообразия в рисунок может потребоваться чрезмерное большое количество действий. Таким образом, разрабатываемая система работает более естественно и не нарушает обычный процесс рисования. Она постепенно записывает нарисованные пользователем данные и анализирует их структуру и цветовые соотношения. Когда достаточное количество повторений обнаружено, система может спрогнозировать и автодополнить действия пользователя в ближайшее время, вокруг текущей области рисования, или через области, структурированные похожим образом. Кроме того, пользователь может принять, проигнорировать или изменить предсказания и таким образом полностью руководить процессом автодополнения.
+\section{Автодополение повторов в живописи}
+Ключевая задача алгоритма состоит в том, чтобы учитывать не только то, что было нарисовано, но и то, как оно нарисовано. Проводится контекстный анализ (\cite{bib23},\cite{bib24})взаимосвязей формы и цвета среди последних мазков и при помощи этого получается потенциальная информация для прогнозирования будущих мазков. В отличии от предыдущих систем рисования(например \cite{bib26},\cite{bib27}), которые требуют четкого порядка действий пользователя, разрабатываемый метод автоматически обнаруживает и поддерживает потенциальные связи между мазками в фоновом режиме. 
+\section{Предыдущие работы }
+\subsection{Создание дополняемых эскизов}
+Рисование является обычной, и все же сложной человеческой деятельностью. Значительные усилия исследователей были направлены на проектирование наводящих или управляемых систем рисования, которые используют различные формы данных, чтобы помочь пользователям. Например, созданию набросков портрета может способствовать материал, собранный при помощи краудсорсинга(\cite{bib28}) или анализируемых данных лица(\cite{bib29}). Чтобы помочь пользователям создать большой набор предметов, Ли(\cite{bib17}) интерактивно дает пользователю подсказки, отображая тени, извлеченные из веб-изображений. В то же время Iarussi (\cite{bib30}) обеспечивает структурные наставления на основе художественных и геометрических принципов. Кроме статических изображений или рисунков, можно также учить новичков при помощи записанных процессов рисования опытных художников(\cite{bib18}).
+Разрабатываемый метод следует этой концепции, но использует данные одного пользователя, чтобы помогать ему же в будущих рисунках.
+\subsection{Эскизы на основе данных}
+Хотя управляемые системы помогают пользователям рисовать проще, им по-прежнему приходится иметь дело с ручными повторениями. Для того, чтобы облегчить этот труд, многие системы были разработаны для автоматизации повторяющихся мазков с помощью вычислений основанных на данных. Ярким примером является детализированные текстуры или узоры (\cite{bib3}, \cite{bib31}, \cite{bib32}) создание которых может хорошо сочетается с традиционными стилями взаимодействия - копирования и вставки. Kazi (\cite{bib2}, \cite{bib11}) предлагает понятное управление жестами, чтобы помочь в создании как статических, так и динамических элементов.
+Разрабатываемый метод также использует данные, для создания посказок, но использует динамические рабочие процессы, а не статические шаблоны или анимированные спрайты. 
 
-\subsection{Data-driven Sketching}
-Although the guided systems can help users draw easier, they still have to deal with manual repetitions. To help ameliorate such tedious process, many systems have been designed to automate the authoring of repetitive drawings via data driven computation. One prime example is the detailed textures or patterns  \cite{bib1} \cite{bib1} \cite{bib1} \cite{bib1} whose creation can fit well with the traditional copy-and-paste interaction styles. Kazi et al.  \cite{bib1} \cite{bib1} provide friendly gesture controls to help create both static and dynamic elements.
-Our method also follows a data-driven approach to help creating repetitions, but uses dynamic workflows rather than static patterns or animated sprites.
+\subsection{Quick, Draw!}
+Quick, Draw! это онлайн-игра, разработанная компанией Google, которая бросает вызов игрокам: необходимо нарисовать изображение объекта или понятия, а затем система использует искусственный интеллект нейронной сети, чтобы угадать, что представляет собой рисунок. Искусственный интеллект, встроенный в игру учится на каждом рисунке, совершенствуя свою способность правильно угадывать. Понятия, которые он угадывает, могут быть простыми, например, «ноги» или более сложными, такими как «миграция животных».
 
-\subsection{Using Workflows}
-Chimera \cite{bib1} is an old system for recording and editing graphical histories, specifically the repetitive operations. Recent years have seen the rise of methods that utilize workflows in various forms, such as exploration \cite{bib1}, visualization  \cite{bib1} \cite{bib1} \cite{bib1} \cite{bib1}, stylization \cite{bib1}, beautification \cite{bib1}, tutorial  \cite{bib1} \cite{bib1}, and revision \cite{bib1}. These methods often rely on pre-recorded workflows, which, when not available, may also be recovered through a certain extent of analysis  \cite{bib1} \cite{bib1} \cite{bib1} \cite{bib1}. Recently, Nancel et al. \cite{bib1} provides a comprehensive survey of different conceptual models for workflow analysis.
-We follow this line of work, but focus on the analysis and synthesis of dynamic workflows for suggestive painting repetitions.
+По состоянию на июль 2017 года более 15 миллионов игроков внесли миллионы рисунков в память игры Quick, Draw! Эти эскизы являются уникальным набором данных, который может помочь разработчикам обучать новые нейронные сети, помогать исследователям видеть шаблоны в том, как люди во всем мире рисуют.
 
-\section{User Interface}
-\subsection{Future Prediction}
-\subsection{Edit Propagation}
-\subsection{Workflow Clone}
+Разрабатываемый метод также использует данные пользователя для создания посказок, но на данном этапе использование нейронной сети излишне, так как систему можно реализовать более простыми методами.
 
-\section{Method}
+\section{Алгоритм}
+Формирования пространственных повторений локально похожи, но могут быть и весьма различны, это зависит от окружающего контекста, таких как окна с разными точками зрения. Для того, чтобы синтезировать предложения высокого качества, система должна быть способна автоматически определять чертежные повторы и анализировать контекстные элементы управления.
+Основная идея системы заключается в том, чтобы обрабатывать повторяющиеся операции рисования как форму текстуры рабочего процесса, а также расширить типовые методы для представления, анализа и синтеза. Необходимо определять каждую операцию рисования в виде непрерывного движения пера не поднимая его. 
 
-\subsection{Method Overview}
+%\subsection{Обзор алгоритма}
 
-\subsection{Workflow Texture}
-\subsubsection{Sample}
-\subsubsection{Operation}
-\subsubsection{Neighborhood}
+%\subsection{Текстура рабочего процесса}
 
-\subsection{Workflow Synthesis}
-\subsubsection{Initialization}
-\subsubsection{SearchStep}
-\subsubsection{Assignment Step}
-\subsubsection{Weighting}
+%\subsubsection{Образец}
+%\subsubsection{Operation}
+%\subsubsection{Neighborhood}
 
-\subsection{Workflow Analysis}
-\subsubsection{Local Analysis}
-\subsubsection{Global Analysis}
-\subsubsection{Prediction Quality}
-\subsubsection{Prediction}
+%\subsection{Workflow Synthesis}
+%\subsubsection{Initialization}
+%\subsubsection{SearchStep}
+%\subsubsection{Assignment Step}
+%\subsubsection{Weighting}
 
-\subsection{Implementation}
+%\subsection{Workflow Analysis}
+%\subsubsection{Local Analysis}
+%\subsubsection{Global Analysis}
+%\subsubsection{Prediction Quality}
+%\subsubsection{Prediction}
 
-\section{User Evaluation}
-\subsection{Study Protocol}
-\subsection{Target Sketch Performance}
-\subsection{Open Sketch Results}
+%\subsection{Implementation}
 
-\section{Limitations and Future Works}
+%\section{User Evaluation}
+%\subsection{Study Protocol}
+%\subsection{Target Sketch Performance}
+%\subsection{Open Sketch Results}
+
 
 % Обратите внимание, что включается не ../dia/..., а inc/dia/...
 % В Makefile есть соответствующее правило для inc/dia/*.pdf, которое
